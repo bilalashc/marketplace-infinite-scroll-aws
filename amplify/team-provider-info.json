@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-backendmarketplace-dev-e3ca7-authRole",
+      "UnauthRoleArn": "arn:aws:iam::066199057524:role/amplify-backendmarketplace-dev-e3ca7-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::066199057524:role/amplify-backendmarketplace-dev-e3ca7-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-backendmarketplace-dev-e3ca7-deployment",
+      "UnauthRoleName": "amplify-backendmarketplace-dev-e3ca7-unauthRole",
+      "StackName": "amplify-backendmarketplace-dev-e3ca7",
+      "StackId": "arn:aws:cloudformation:us-east-1:066199057524:stack/amplify-backendmarketplace-dev-e3ca7/828ddcc0-7339-11ef-8a5d-0afff406bf47",
+      "AmplifyAppId": "d330s0zhkma1ra"
+    }
+  }
+}

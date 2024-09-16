@@ -10,6 +10,11 @@
       "StackName": "amplify-backendmarketplace-dev-e3ca7",
       "StackId": "arn:aws:cloudformation:us-east-1:066199057524:stack/amplify-backendmarketplace-dev-e3ca7/828ddcc0-7339-11ef-8a5d-0afff406bf47",
       "AmplifyAppId": "d330s0zhkma1ra"
+    },
+    "categories": {
+      "auth": {
+        "backendmarketplacee43873df": {}
+      }
     }
   }
 }

@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser';
 import express from 'express'
 import { authenticateToken } from './middleware/auth';
+import itemsRouter from './routes/items';
 
 
 const app = express();
@@ -15,7 +16,7 @@ app.get('/', (req, res) => {
 })
 
 //Protected Routes
-// app.use('/items', authenticateToken, itemsRouter);
+app.use('/items', authenticateToken, itemsRouter);
 
 
 app.listen(PORT, () => {

@@ -4,8 +4,8 @@ import multer from 'multer';
 import multerS3 from 'multer-s3';
 import { v4 as uuidv4 } from 'uuid';
 import { S3Client } from '@aws-sdk/client-s3';
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBClient, ScanCommand } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient, PutCommand, ScanCommandInput } from '@aws-sdk/lib-dynamodb';
 
 
 const router = express.Router()
@@ -74,6 +74,39 @@ router.post('/', upload.single('image'), async(req: Request, res: Response ) => 
         console.error("Error creating Item", error)
         res.status(500).json({message: 'Internal Server Error'})
     }
+})
+
+//GET /items retrieve items with pagination
+router.get('/', async(req: Request, res: Response) => {
+    const { limit = 10, nextToken } = req.query;
+
+    const params: ScanCommandInput = {
+        TableName: 'Items',
+        Limit: Number(limit),
+    }
+
+    if (nextToken) {
+        params.ExclusiveStartKey = JSON.parse(Buffer.from(nextToken as string, 'base64').toString('ascii'))
+    }
+
+    try {
+        const data = await dynamoDB.send(new ScanCommand(params));
+
+        //Encode LastEvaluatedKey as nextToken
+        let encodedNextToken = null;
+        if (data.LastEvaluatedKey){
+            Buffer.from(JSON.stringify(data.LastEvaluatedKey)).toString('base64');
+        }
+        res.json({
+            items: data.Items,
+            nextToken: encodedNextToken,
+        })
+    } catch (error) {
+        console.error("Error Retrieving Items", error);
+        res.status(500).json({message: "Internal Server Error"})
+
+    }
+
 })
 
 

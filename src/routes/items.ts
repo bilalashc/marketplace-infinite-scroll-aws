@@ -95,7 +95,7 @@ router.get('/', async(req: Request, res: Response) => {
         //Encode LastEvaluatedKey as nextToken
         let encodedNextToken = null;
         if (data.LastEvaluatedKey){
-            Buffer.from(JSON.stringify(data.LastEvaluatedKey)).toString('base64');
+            encodedNextToken = Buffer.from(JSON.stringify(data.LastEvaluatedKey)).toString('base64');
         }
         res.json({
             items: data.Items,

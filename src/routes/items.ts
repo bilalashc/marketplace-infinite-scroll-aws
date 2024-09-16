@@ -1,18 +1,19 @@
 import express, { Request, Response } from 'express';
-import AWS from 'aws-sdk';
+// import AWS from 'aws-sdk';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 import { v4 as uuidv4 } from 'uuid';
+import { S3Client } from '@aws-sdk/client-s3';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 
 
 const router = express.Router()
 
 //AWS configuration
-AWS.config.update({region: process.env.AWS_REGION});
-
-const s3: AWS.S3 = new AWS.S3();
-// const s3 = new S3Client({ region: process.env.AWS_REGION });
-const dynamoDB = new AWS.DynamoDB.DocumentClient();
+const s3 = new S3Client({ region: process.env.AWS_REGION });
+const dynamoClient = new DynamoDBClient({ region: process.env.AWS_REGION });
+const dynamoDB = DynamoDBDocumentClient.from(dynamoClient);
 
 //S3 Storage Configuration for Multer
 const upload = multer({
@@ -67,7 +68,7 @@ router.post('/', upload.single('image'), async(req: Request, res: Response ) => 
     }
 
     try {
-        await dynamoDB.put(params).promise(); //Save the item to DynamoDB
+        await dynamoDB.send(new PutCommand(params)); //Save the item to DynamoDB
         res.status(201).json(newItem); //Return the created item
     } catch (error){
         console.error("Error creating Item", error)

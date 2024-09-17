@@ -4,7 +4,7 @@ node_modules/
 #ignore env files
 .env
 
-#ignore log filesl
+#ignore log files
 logs/
 *.log
 
@@ -29,3 +29,6 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+
+
+#testing git push
